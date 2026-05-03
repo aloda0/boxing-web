@@ -1,0 +1,125 @@
+export const homePageQuery = `*[_type == "homePage" && _id == "homePage"][0]{
+  heroTitle,
+  heroSubtitle,
+  heroImage,
+  heroLinks,
+  metaTitle,
+  metaDescription
+}`;
+
+export const latestNewsQuery = `*[_type == "newsArticle"] | order(publishedAt desc)[0...6]{
+  _id,
+  title,
+  slug,
+  publishedAt,
+  coverImage,
+  "coverImageAspectRatio": coverImage.asset->metadata.dimensions.aspectRatio
+}`;
+
+export const allNewsQuery = `*[_type == "newsArticle"] | order(publishedAt desc){
+  _id,
+  title,
+  slug,
+  publishedAt,
+  coverImage,
+  "coverImageAspectRatio": coverImage.asset->metadata.dimensions.aspectRatio
+}`;
+
+export const newsBySlugQuery = `*[_type == "newsArticle" && slug.current == $slug][0]{
+  title,
+  slug,
+  publishedAt,
+  coverImage,
+  body
+}`;
+
+export const calendarEventsQuery = `*[_type == "calendarEvent"] | order(eventDate asc){
+  _id,
+  "eventName": coalesce(competitionName, title),
+  eventDate,
+  location,
+  description,
+  "attachmentUrl": attachment.asset->url,
+  "attachmentName": attachment.asset->originalFilename
+}`;
+
+export const teamDocsQuery = `*[_type == "teamDoc"] | order(publishedAt desc){
+  _id,
+  title,
+  publishedAt,
+  shortDescription,
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename
+}`;
+
+export const competitionResultsQuery = `*[_type == "competitionResult"] | order(eventDate desc){
+  _id,
+  title,
+  slug,
+  eventDate,
+  location,
+  summary,
+  resultsText,
+  resultRows,
+  winners,
+  "finalUrl": finalDocument.asset->url,
+  "finalName": finalDocument.asset->originalFilename
+}`;
+
+export const competitionResultBySlugQuery = `*[_type == "competitionResult" && slug.current == $slug][0]{
+  title,
+  slug,
+  eventDate,
+  location,
+  summary,
+  resultsText,
+  resultRows,
+  winners,
+  "finalUrl": finalDocument.asset->url,
+  "finalName": finalDocument.asset->originalFilename
+}`;
+
+export const regulationDocsQuery = `*[_type == "regulationDoc"] | order(docDate desc){
+  _id,
+  title,
+  slug,
+  docDate,
+  shortDescription,
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename
+}`;
+
+export const reportDocsQuery = `*[_type == "reportDoc"] | order(docDate desc){
+  _id,
+  title,
+  slug,
+  docDate,
+  shortDescription,
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename
+}`;
+
+export const callDocsQuery = `*[_type == "callDoc"] | order(docDate desc){
+  _id,
+  title,
+  slug,
+  docDate,
+  description,
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename
+}`;
+
+export const callBySlugQuery = `*[_type == "callDoc" && slug.current == $slug][0]{
+  title,
+  slug,
+  docDate,
+  description,
+  "fileUrl": file.asset->url,
+  "fileName": file.asset->originalFilename
+}`;
+
+export const latestDocumentsQuery = `{
+  "regulations": *[_type == "regulationDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url },
+  "reports": *[_type == "reportDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url },
+  "calls": *[_type == "callDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, "fileUrl": file.asset->url }
+}`;

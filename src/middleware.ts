@@ -1,0 +1,56 @@
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+
+function normalizeHost(host: string) {
+  return host.split(":")[0].toLowerCase();
+}
+
+/**
+ * Разделяет основной сайт и админку по поддомену:
+ * - основной домен — только страницы для посетителей;
+ * - ADMIN_HOSTNAME (например admin.домен.ru) — только /studio и служебные пути.
+ *
+ * На основном домене /studio перенаправляет на адрес админки.
+ * Локально: не задавайте ADMIN_HOSTNAME — админка доступна по http://localhost:3000/studio
+ */
+export function middleware(request: NextRequest) {
+  const adminHost = process.env.ADMIN_HOSTNAME?.trim().toLowerCase();
+  if (!adminHost) {
+    return NextResponse.next();
+  }
+
+  const host = normalizeHost(request.headers.get("host") || "");
+  const { pathname, search } = request.nextUrl;
+  const isAdminHost = host === adminHost;
+
+  const adminBase =
+    process.env.NEXT_PUBLIC_ADMIN_URL?.trim() ||
+    `${request.nextUrl.protocol}//${adminHost}`;
+
+  if (isAdminHost) {
+    if (pathname === "/" || pathname === "") {
+      return NextResponse.redirect(new URL(`/studio${search}`, request.url));
+    }
+    if (
+      pathname.startsWith("/studio") ||
+      pathname.startsWith("/_next") ||
+      pathname.startsWith("/api") ||
+      pathname === "/favicon.ico" ||
+      pathname === "/robots.txt"
+    ) {
+      return NextResponse.next();
+    }
+    return NextResponse.redirect(new URL(`/studio${search}`, request.url));
+  }
+
+  if (pathname.startsWith("/studio")) {
+    const target = new URL(pathname + search, adminBase);
+    return NextResponse.redirect(target);
+  }
+
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/((?!_next/static|_next/image|.*\\.(?:ico|png|jpg|jpeg|gif|svg|webp|woff2?)$).*)"],
+};

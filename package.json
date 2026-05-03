@@ -3,15 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3004",
+    "dev:3004": "next dev -p 3004",
+    "dev:3001": "next dev -p 3001",
+    "dev:clean": "node scripts/dev-clean.mjs",
     "build": "next build",
-    "start": "next start",
-    "lint": "eslint"
+    "start": "next start -p 3004",
+    "start:3004": "next start -p 3004",
+    "lint": "eslint",
+    "studio": "sanity dev --port 3333",
+    "seed": "node scripts/seed.mjs"
   },
   "dependencies": {
+    "@portabletext/react": "^4.0.3",
+    "@sanity/client": "^7.20.0",
+    "@sanity/image-url": "^2.0.3",
+    "@sanity/locale-ru-kz": "^1.1.28",
     "next": "16.2.1",
+    "next-sanity": "^10.1.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "sanity": "^4.3.0",
+    "styled-components": "^6.3.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -20,6 +33,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "playwright": "^1.59.1",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
