@@ -114,7 +114,7 @@ export function DesktopHeader() {
   return (
     <div className="hidden lg:block">
       <div className="relative z-10 w-full min-h-[var(--site-header-h)]">
-        <div className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 rounded-2xl border-b border-l border-r border-white/12 bg-black/10 py-1.5 pl-3 pr-3 backdrop-blur-sm sm:gap-x-3 sm:pl-4 sm:pr-4 sm:py-2 lg:gap-x-4 lg:pl-5 lg:pr-5 lg:py-2">
+        <div className="grid w-full min-w-0 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-x-2 rounded-2xl border-b border-l border-r border-white/12 bg-black/10 py-1.5 pl-3 pr-3 sm:gap-x-3 sm:pl-4 sm:pr-4 sm:py-2 lg:gap-x-4 lg:pl-5 lg:pr-5 lg:py-2">
           <div className="flex min-w-0 items-center justify-self-start self-center py-0.5">
             <Link
               href="/"
@@ -129,7 +129,7 @@ export function DesktopHeader() {
                   height={120}
                   priority
                   unoptimized
-                  className="h-[3.96rem] w-auto max-h-[4.2rem] max-w-[min(100%,19.2rem)] object-contain object-left xl:h-[4.32rem] xl:max-h-[4.5rem]"
+                  className="h-[2.1rem] w-auto max-h-[2.2rem] max-w-[min(100%,11rem)] object-contain object-left xl:h-[2.2rem] xl:max-h-[2.4rem]"
                 />
               </span>
             </Link>
@@ -146,6 +146,9 @@ export function DesktopHeader() {
             <DesktopDropdown label="Документация" items={documentationDropdown} active={docsNavActive} />
             <Link prefetch={false} href="/news" className={desktopLinkClass(pathMatches(pathname, "/news"))}>
               Новости
+            </Link>
+            <Link prefetch={false} href="/broadcasts" className={desktopLinkClass(pathMatches(pathname, "/broadcasts"))}>
+              Трансляции
             </Link>
             <Link prefetch={false} href="/museum" className={desktopLinkClass(pathMatches(pathname, "/museum"))}>
               Музей Югры
