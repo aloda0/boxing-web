@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { metadata as studioMetadata, viewport as studioViewport } from "next-sanity/studio";
 
+export const dynamic = "force-static";
+
 export const metadata: Metadata = {
   ...studioMetadata,
   title: "Редактор контента · Федерация бокса Югры",

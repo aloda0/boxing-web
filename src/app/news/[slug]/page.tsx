@@ -4,9 +4,17 @@ import { PortableBody } from "@/components/PortableBody";
 import { SanityImage } from "@/components/SanityImage";
 import { formatDateRu } from "@/lib/format";
 import { ogImageFromSanity } from "@/lib/og";
-import { getNewsBySlug } from "@/lib/data";
+import { getAllNews, getNewsBySlug } from "@/lib/data";
 
-export const revalidate = 60;
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const articles = await getAllNews();
+  const slugs = articles
+    .map((a) => a.slug?.current)
+    .filter((s): s is string => Boolean(s));
+  return (slugs.length > 0 ? slugs : ["_"]).map((slug) => ({ slug }));
+}
 
 type Props = { params: Promise<{ slug: string }> };
 

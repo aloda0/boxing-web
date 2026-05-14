@@ -21,6 +21,15 @@ export const metadata: Metadata = {
   },
   description:
     "Официальный сайт Федерации бокса Ханты-Мансийского автономного округа — Югры: новости, календарь, сборная, документы.",
+  icons: {
+    shortcut: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     locale: "ru_RU",

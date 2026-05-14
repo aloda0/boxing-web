@@ -4,9 +4,19 @@ import { notFound } from "next/navigation";
 import { GlassCard } from "@/components/GlassCard";
 import { PortableBody } from "@/components/PortableBody";
 import { formatDateRu } from "@/lib/format";
-import { getCallBySlug } from "@/lib/data";
+import { getCallBySlug, getCallDocs } from "@/lib/data";
 
-export const revalidate = 60;
+export const dynamicParams = false;
+
+export async function generateStaticParams() {
+  const docs = await getCallDocs();
+  const slugs = docs
+    .map((d) => d.slug?.current)
+    .filter((s): s is string => Boolean(s));
+  // Static export requires at least one pre-rendered route for dynamic segments.
+  // When Sanity has no documents yet, use a placeholder that resolves to notFound().
+  return (slugs.length > 0 ? slugs : ["_"]).map((slug) => ({ slug }));
+}
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -40,7 +50,7 @@ export default async function CallDetailPage({ params }: Props) {
       <p className="mt-6 text-sm text-zinc-500">
         {doc.docDate ? formatDateRu(doc.docDate) : ""}
       </p>
-      <h1 className="mt-4 text-4xl font-bold tracking-tight text-white">{doc.title}</h1>
+      <h1 className="mt-4 text-4xl font-bold tracking-tight text-zinc-900">{doc.title}</h1>
       <GlassCard className="mt-10">
         <Description value={doc.description} />
       </GlassCard>
@@ -50,7 +60,7 @@ export default async function CallDetailPage({ params }: Props) {
             href={doc.fileUrl}
             target="_blank"
             rel="noreferrer"
-            className="btn-primary inline-flex rounded-xl px-6 py-3 text-sm font-semibold text-white transition"
+            className="btn-primary inline-flex rounded-xl px-6 py-3 text-sm font-semibold text-zinc-900 transition"
           >
             {doc.fileName ? `Скачать: ${doc.fileName}` : "Скачать документ"}
           </a>

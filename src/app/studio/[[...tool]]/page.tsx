@@ -1,8 +1,10 @@
-"use client";
+import { StudioClient } from "./_StudioClient";
 
-import { NextStudio } from "next-sanity/studio";
-import config from "../../../../sanity.config";
+// Pre-render /studio as a static shell — Sanity Studio boots client-side
+export function generateStaticParams() {
+  return [{ tool: [] as string[] }];
+}
 
 export default function StudioPage() {
-  return <NextStudio config={config} />;
+  return <StudioClient />;
 }

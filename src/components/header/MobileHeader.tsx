@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { aboutDropdown, documentationDropdown, SITE_LOGO_SRC } from "@/lib/site-nav";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 function BurgerIcon() {
@@ -17,70 +17,8 @@ function BurgerIcon() {
 export function MobileHeader() {
   const detailsRef = useRef<HTMLDetailsElement | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const firstClientRenderRef = useRef(true);
 
   const shouldRenderPortal = typeof document !== "undefined" && menuOpen;
-
-  const debugLog = useMemo(
-    () => (hypothesisId: string, location: string, message: string, data: Record<string, unknown>) => {
-      // #region agent log
-      fetch("http://127.0.0.1:7433/ingest/a7deb799-be3b-4325-9467-8eb2971285b2", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-Debug-Session-Id": "d840a5" },
-        body: JSON.stringify({
-          sessionId: "d840a5",
-          runId: "hydration-mobileheader-1",
-          hypothesisId,
-          location,
-          message,
-          data,
-          timestamp: Date.now(),
-        }),
-      }).catch(() => {});
-      // #endregion
-    },
-    [],
-  );
-
-  useEffect(() => {
-    debugLog("H1", "src/components/header/MobileHeader.tsx:mount", "client_mount_snapshot", {
-      menuOpen,
-      shouldRenderPortal,
-      detailsOpenAtMount: detailsRef.current?.open ?? null,
-    });
-  }, [debugLog, menuOpen, shouldRenderPortal]);
-
-  useEffect(() => {
-    if (!firstClientRenderRef.current) return;
-    firstClientRenderRef.current = false;
-    debugLog("H2", "src/components/header/MobileHeader.tsx:firstClientRender", "first_client_render_state", {
-      menuOpen,
-      shouldRenderPortal,
-      detailsOpenAtFirstRender: detailsRef.current?.open ?? null,
-    });
-  }, [debugLog, menuOpen, shouldRenderPortal]);
-
-  useEffect(() => {
-    const onErr = (event: ErrorEvent) => {
-      debugLog("H3", "src/components/header/MobileHeader.tsx:windowError", "window_error", {
-        message: event.message,
-        filename: event.filename,
-        lineno: event.lineno,
-        colno: event.colno,
-      });
-    };
-    const onRej = (event: PromiseRejectionEvent) => {
-      debugLog("H3", "src/components/header/MobileHeader.tsx:unhandledRejection", "unhandled_rejection", {
-        reason: event.reason instanceof Error ? event.reason.message : String(event.reason),
-      });
-    };
-    window.addEventListener("error", onErr);
-    window.addEventListener("unhandledrejection", onRej);
-    return () => {
-      window.removeEventListener("error", onErr);
-      window.removeEventListener("unhandledrejection", onRej);
-    };
-  }, [debugLog]);
 
   const closeDetails = () => {
     setMenuOpen(false);
@@ -88,7 +26,6 @@ export function MobileHeader() {
   };
 
   const onLinkClick = () => {
-    // Закрываем нативный <details> до/во время navigation.
     closeDetails();
   };
 
@@ -104,13 +41,9 @@ export function MobileHeader() {
     aboutDropdown[1]?.href ??
     "/about/organization";
 
-  // Требование: заголовки "О нас"/"Документация" НЕ кликабельны,
-  // а подпункты под ними — кликабельные ссылки.
   const aboutSubLinks = [
     { label: "Руководство", href: leadershipHref },
     { label: "Документы организации", href: organizationHref },
-    // В проекте есть только /about/leadership и /about/organization в desktop-данных.
-    // "Тренерский состав" привязываем к существующему маршруту /about/organization.
     { label: "Тренерский состав", href: organizationHref },
   ] as const;
 
@@ -218,6 +151,14 @@ export function MobileHeader() {
             Новости
           </Link>
           <Link
+            href="/broadcasts"
+            prefetch={false}
+            className="block border-b border-white/10 py-3 text-base font-medium text-zinc-100 active:bg-white/5"
+            onClick={onLinkClick}
+          >
+            Трансляции
+          </Link>
+          <Link
             href="/museum"
             prefetch={false}
             className="block border-b border-white/10 py-3 text-base font-medium text-zinc-100 active:bg-white/5"
@@ -233,7 +174,6 @@ export function MobileHeader() {
           >
             Удар на силу
           </Link>
-
           <Link
             href="/calls"
             prefetch={false}
@@ -273,12 +213,7 @@ export function MobileHeader() {
           ref={detailsRef}
           className="relative"
           onToggle={(e) => {
-            const open = (e.currentTarget as HTMLDetailsElement).open;
-            debugLog("H4", "src/components/header/MobileHeader.tsx:onToggle", "details_toggle", {
-              detailsOpen: open,
-              menuOpenBeforeSet: menuOpen,
-            });
-            setMenuOpen(open);
+            setMenuOpen((e.currentTarget as HTMLDetailsElement).open);
           }}
         >
           <summary
@@ -302,7 +237,7 @@ export function MobileHeader() {
           </summary>
         </details>
       </div>
-      {typeof document !== "undefined" && menuOpen ? createPortal(overlayMenu, document.body) : null}
+      {shouldRenderPortal ? createPortal(overlayMenu, document.body) : null}
     </div>
   );
 }

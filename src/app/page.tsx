@@ -22,9 +22,9 @@ const defaultHome: HomePage = {
 };
 
 const quickTiles = [
-  { title: "Календарный план", href: "/calendar", hint: "События и сроки" },
-  { title: "Сборная команда", href: "/team", hint: "Документы сборной" },
   { title: "Положения", href: "/regulations", hint: "Нормативные документы" },
+  { title: "Сборная команда", href: "/team", hint: "Документы сборной" },
+  { title: "Судейские отчеты", href: "/reports", hint: "Судейские материалы" },
   { title: "Отчёты", href: "/reports", hint: "Отчёты с турниров" },
   { title: "Вызовы", href: "/calls", hint: "Официальные вызовы" },
 ];
@@ -249,7 +249,7 @@ export default async function HomePage() {
           <p className="mt-2 text-zinc-400">Основные разделы сайта</p>
           <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {quickTiles.map((tile) => (
-              <Link key={tile.href} href={tile.href} className="group block">
+              <Link key={tile.title} href={tile.href} className="group block">
                 <GlassCard className="h-full">
                   <p className="text-xs font-medium uppercase tracking-wider text-accent-muted">
                     {tile.hint}
