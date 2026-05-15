@@ -49,7 +49,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./out/
-          server-dir: /
+          server-dir: /www/boxing-hmao.ru/
           exclude: |
             **/.git*
             **/.git*/**
