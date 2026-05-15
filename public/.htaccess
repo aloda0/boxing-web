@@ -1,0 +1,21 @@
+Options -MultiViews -Indexes
+RewriteEngine On
+
+# Static assets — serve directly
+RewriteRule ^_next/ - [L]
+RewriteRule ^favicon\. - [L]
+RewriteRule ^robots\.txt$ - [L]
+RewriteRule ^sitemap\.xml$ - [L]
+
+# Existing files and directories — serve directly
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Clean URLs: /about → about.html, /news/slug → news/slug.html
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+?)/?$ $1.html [L]
+
+# 404 fallback
+ErrorDocument 404 /404.html
