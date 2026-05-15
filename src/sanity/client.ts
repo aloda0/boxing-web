@@ -11,5 +11,5 @@ export const client = createClient({
   projectId: projectId || "invalid-id",
   dataset,
   apiVersion,
-  useCdn: true,
+  useCdn: false, // build-time fetch must bypass CDN cache to get fresh data
 });
