@@ -12,10 +12,10 @@ on:
   # 3. Ручной запуск из GitHub (кнопка Run workflow)
   workflow_dispatch:
 
-# Если пришёл новый запуск — отменяем предыдущий в очереди
+# Новый запуск ждёт завершения текущего — частичный деплой исключён
 concurrency:
   group: deploy
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:

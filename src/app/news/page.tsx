@@ -5,7 +5,6 @@ import { SanityImage } from "@/components/SanityImage";
 import { formatDateRu } from "@/lib/format";
 import { getAllNews } from "@/lib/data";
 
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Новости",

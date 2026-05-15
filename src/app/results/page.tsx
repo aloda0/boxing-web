@@ -4,7 +4,6 @@ import { GlassCard } from "@/components/GlassCard";
 import { formatDateRu } from "@/lib/format";
 import { getCompetitionResults } from "@/lib/data";
 
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Результаты соревнований",

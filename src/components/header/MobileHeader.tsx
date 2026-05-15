@@ -174,14 +174,6 @@ export function MobileHeader() {
           >
             Удар на силу
           </Link>
-          <Link
-            href="/calls"
-            prefetch={false}
-            className="block border-b border-white/10 py-3 text-base font-medium text-zinc-100 active:bg-white/5"
-            onClick={onLinkClick}
-          >
-            Вызовы
-          </Link>
         </div>
       </div>
     </div>

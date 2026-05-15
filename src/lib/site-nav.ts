@@ -15,6 +15,7 @@ export const documentationDropdown = [
   { href: "/results", label: "Результаты соревнований" },
   { href: "/regulations", label: "Положение соревнований" },
   { href: "/reports", label: "Судейские отчеты" },
+  { href: "/calls", label: "Вызовы" },
 ] as const;
 
 export function pathMatches(pathname: string | null, href: string): boolean {

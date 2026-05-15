@@ -3,7 +3,6 @@ import { GlassCard } from "@/components/GlassCard";
 import { formatDateRu } from "@/lib/format";
 import { getTeamDocs } from "@/lib/data";
 
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Сборная команда",

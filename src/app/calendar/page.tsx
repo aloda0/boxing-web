@@ -4,7 +4,6 @@ import { PortableBody } from "@/components/PortableBody";
 import { formatDateTimeRu } from "@/lib/format";
 import { getCalendarEvents } from "@/lib/data";
 
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Календарный план",

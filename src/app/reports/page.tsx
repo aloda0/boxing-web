@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { DocumentCard } from "@/components/DocumentCard";
 import { getReportDocs } from "@/lib/data";
 
-export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Отчёты с соревнований",
