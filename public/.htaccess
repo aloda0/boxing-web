@@ -19,3 +19,16 @@ RewriteRule ^(.+?)/?$ $1.html [L]
 
 # 404 fallback
 ErrorDocument 404 /404.html
+
+# Cache control
+# HTML — никогда не кешировать (страницы меняются при деплое)
+<FilesMatch "\.(html|txt)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+</FilesMatch>
+
+# Next.js статические ассеты — кешировать вечно (имена содержат хеш)
+<FilesMatch "^_next/static/">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
