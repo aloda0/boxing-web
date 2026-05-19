@@ -16,7 +16,6 @@ export const regulationDoc = defineType({
       name: "slug",
       title: "Служебное поле ссылки",
       type: "slug",
-      hidden: true,
       options: { source: "title", maxLength: 96 },
       validation: (Rule) => Rule.required(),
     }),
