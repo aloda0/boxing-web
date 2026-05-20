@@ -55,9 +55,11 @@ export function MobileHeader() {
       style={{
         width: "100vw",
         height: "100dvh",
-        background: "rgba(0, 0, 0, 0.96)",
-        backdropFilter: "blur(20px)",
-        WebkitBackdropFilter: "blur(20px)",
+        background: "rgba(0, 0, 0, 0.42)",
+        WebkitBackdropFilter: "blur(28px) saturate(160%)",
+        backdropFilter: "blur(28px) saturate(160%)",
+        borderLeft: "1px solid rgba(255,255,255,0.08)",
+        borderRight: "1px solid rgba(255,255,255,0.08)",
       }}
       aria-label="Мобильное меню"
       role="dialog"
@@ -180,7 +182,14 @@ export function MobileHeader() {
   );
 
   return (
-    <div className="lg:hidden fixed left-0 right-0 top-0 z-[410] bg-[#0b0f16] border-b border-white/10 pt-[env(safe-area-inset-top)]">
+    <div
+      className="lg:hidden fixed left-0 right-0 top-0 z-[410] border-b border-white/12 pt-[env(safe-area-inset-top)]"
+      style={{
+        background: "rgba(0, 0, 0, 0.32)",
+        WebkitBackdropFilter: "blur(12px) saturate(140%)",
+        backdropFilter: "blur(12px) saturate(140%)",
+      }}
+    >
       <div className="relative mx-auto flex h-[var(--site-header-h)] max-w-7xl items-center justify-between px-3 md:px-4">
         <Link
           href="/"
