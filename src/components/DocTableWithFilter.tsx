@@ -174,9 +174,6 @@ export function DocTableWithFilter({
                           <p className="line-clamp-2 break-words hyphens-auto text-pretty text-sm font-semibold leading-snug text-white">
                             {d.title}
                           </p>
-                          {d.fileName ? (
-                            <p className="mt-1 truncate text-xs text-zinc-500">{d.fileName}</p>
-                          ) : null}
                         </td>
                         <td className="px-6 py-4 align-top text-sm text-zinc-300 whitespace-nowrap">
                           {d.date ? formatDateRu(d.date) : "—"}
