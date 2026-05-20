@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { DocumentCard } from "@/components/DocumentCard";
+import { DocTableWithFilter } from "@/components/DocTableWithFilter";
 import { getRegulationDocs } from "@/lib/data";
-
 
 export const metadata: Metadata = {
   title: "Положение соревнований",
@@ -11,28 +10,27 @@ export const metadata: Metadata = {
 export default async function RegulationsPage() {
   const docs = await getRegulationDocs();
 
+  // Нормализуем docDate → date
+  const items = docs.map((d) => ({
+    _id: d._id,
+    title: d.title,
+    date: d.docDate,
+    shortDescription: d.shortDescription,
+    fileUrl: d.fileUrl,
+    fileName: d.fileName,
+  }));
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-14 lg:px-6 lg:py-20">
+    <div className="mx-auto max-w-7xl px-4 py-14 lg:px-4 lg:py-20 xl:px-6">
       <h1 className="text-4xl font-bold tracking-tight text-white">Положение соревнований</h1>
       <p className="mt-3 max-w-2xl text-zinc-400">
-        Документы загружаются в редакторе. Кнопка «Скачать» появляется только если файл прикреплён.
+        Положения и регламенты соревнований. Кнопка «Скачать» появляется, если прикреплён файл.
       </p>
-      <div className="section-surface mt-12 rounded-3xl p-2 sm:p-3">
-        <div className="grid gap-6 md:grid-cols-2">
-        {docs.length === 0 ? (
-          <p className="text-zinc-400 md:col-span-2">Документы пока не опубликованы.</p>
-        ) : (
-          docs.map((d) => (
-            <DocumentCard
-              key={d._id}
-              title={d.title}
-              date={d.docDate}
-              description={d.shortDescription}
-              fileUrl={d.fileUrl}
-            />
-          ))
-        )}
-        </div>
+      <div className="mt-10">
+        <DocTableWithFilter
+          docs={items}
+          emptyText="Документы пока не опубликованы."
+        />
       </div>
     </div>
   );

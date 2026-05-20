@@ -1,38 +1,36 @@
 import type { Metadata } from "next";
-import { DocumentCard } from "@/components/DocumentCard";
+import { DocTableWithFilter } from "@/components/DocTableWithFilter";
 import { getReportDocs } from "@/lib/data";
 
-
 export const metadata: Metadata = {
-  title: "Отчёты с соревнований",
-  description: "Отчёты и итоговые материалы с соревнований.",
+  title: "Судейские отчёты",
+  description: "Судейские отчёты с соревнований Федерации бокса Югры.",
 };
 
 export default async function ReportsPage() {
   const docs = await getReportDocs();
 
+  // Нормализуем docDate → date
+  const items = docs.map((d) => ({
+    _id: d._id,
+    title: d.title,
+    date: d.docDate,
+    shortDescription: d.shortDescription,
+    fileUrl: d.fileUrl,
+    fileName: d.fileName,
+  }));
+
   return (
-    <div className="mx-auto max-w-6xl px-4 py-14 lg:px-6 lg:py-20">
-      <h1 className="text-4xl font-bold tracking-tight text-white">Отчёты с соревнований</h1>
+    <div className="mx-auto max-w-7xl px-4 py-14 lg:px-4 lg:py-20 xl:px-6">
+      <h1 className="text-4xl font-bold tracking-tight text-white">Судейские отчёты</h1>
       <p className="mt-3 max-w-2xl text-zinc-400">
-        Загрузите PDF или документ Word в редакторе — посетители увидят карточку и смогут скачать файл.
+        Загрузите PDF или документ Word в редакторе — посетители увидят файл и смогут его скачать.
       </p>
-      <div className="section-surface mt-12 rounded-3xl p-2 sm:p-3">
-        <div className="grid gap-6 md:grid-cols-2">
-        {docs.length === 0 ? (
-          <p className="text-zinc-400 md:col-span-2">Отчёты пока не опубликованы.</p>
-        ) : (
-          docs.map((d) => (
-            <DocumentCard
-              key={d._id}
-              title={d.title}
-              date={d.docDate}
-              description={d.shortDescription}
-              fileUrl={d.fileUrl}
-            />
-          ))
-        )}
-        </div>
+      <div className="mt-10">
+        <DocTableWithFilter
+          docs={items}
+          emptyText="Отчёты пока не опубликованы."
+        />
       </div>
     </div>
   );
