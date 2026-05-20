@@ -15,11 +15,25 @@ export const structure: StructureResolver = (S) =>
             .title("Баннер и текст на главной"),
         ),
       S.divider(),
-      S.documentTypeListItem("newsArticle").title("Новости"),
-      S.documentTypeListItem("calendarEvent").title("Календарный план"),
-      S.documentTypeListItem("teamDoc").title("Сборная команда (документы)"),
-      S.documentTypeListItem("competitionResult").title("Результаты соревнований"),
-      S.documentTypeListItem("regulationDoc").title("Положение соревнований"),
-      S.documentTypeListItem("reportDoc").title("Отчёты соревнований"),
-      S.documentTypeListItem("callDoc").title("Вызовы"),
+      S.listItem().title("Новости").schemaType("newsArticle")
+        .child(S.documentTypeList("newsArticle").title("Новости")
+          .defaultOrdering([{ field: "publishedAt", direction: "desc" }])),
+      S.listItem().title("Календарный план").schemaType("calendarEvent")
+        .child(S.documentTypeList("calendarEvent").title("Календарный план")
+          .defaultOrdering([{ field: "eventDate", direction: "desc" }])),
+      S.listItem().title("Сборная команда (документы)").schemaType("teamDoc")
+        .child(S.documentTypeList("teamDoc").title("Сборная команда (документы)")
+          .defaultOrdering([{ field: "publishedAt", direction: "desc" }])),
+      S.listItem().title("Результаты соревнований").schemaType("competitionResult")
+        .child(S.documentTypeList("competitionResult").title("Результаты соревнований")
+          .defaultOrdering([{ field: "eventDate", direction: "desc" }])),
+      S.listItem().title("Положение соревнований").schemaType("regulationDoc")
+        .child(S.documentTypeList("regulationDoc").title("Положение соревнований")
+          .defaultOrdering([{ field: "docDate", direction: "desc" }])),
+      S.listItem().title("Отчёты соревнований").schemaType("reportDoc")
+        .child(S.documentTypeList("reportDoc").title("Отчёты соревнований")
+          .defaultOrdering([{ field: "docDate", direction: "desc" }])),
+      S.listItem().title("Вызовы").schemaType("callDoc")
+        .child(S.documentTypeList("callDoc").title("Вызовы")
+          .defaultOrdering([{ field: "docDate", direction: "desc" }])),
     ]);
