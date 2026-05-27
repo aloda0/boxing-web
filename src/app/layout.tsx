@@ -45,6 +45,23 @@ export default function RootLayout({
   return (
     <html lang="ru" className={`${manrope.variable} h-full`}>
       <body className="flex min-h-full flex-col bg-transparent font-sans text-zinc-100 antialiased">
+        {/* Фото ринга — единый фон всего сайта */}
+        <div
+          className="pointer-events-none fixed inset-0 z-[-2]"
+          aria-hidden
+          style={{
+            backgroundImage: "url('/images/back-hero.png')",
+            backgroundSize: "cover",
+            backgroundPosition: "center 22%",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+        {/* Тёмный оверлей поверх фото */}
+        <div
+          className="pointer-events-none fixed inset-0 z-[-2]"
+          aria-hidden
+          style={{ background: "rgba(6,6,6,0.82)" }}
+        />
         <div
           className="bg-app pointer-events-none fixed inset-0 z-[-1]"
           aria-hidden

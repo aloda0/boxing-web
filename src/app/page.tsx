@@ -121,7 +121,7 @@ export default async function HomePage() {
     <>
       <section
         id="home-hero"
-        className="relative -mt-[var(--site-header-h)] max-lg:pointer-events-none max-md:mt-0 overflow-hidden rounded-b-[1.25rem] border-b border-black/10 sm:rounded-b-[1.75rem] lg:rounded-b-[2rem]"
+        className="relative -mt-[var(--site-header-h)] max-lg:pointer-events-none max-md:mt-0"
       >
         <div className="relative min-h-[calc(100dvh-var(--site-header-h)-env(safe-area-inset-top,0px))] w-full md:min-h-[100dvh]">
           <div className="pointer-events-none absolute inset-0">
@@ -132,7 +132,7 @@ export default async function HomePage() {
             />
             <div className="absolute inset-0 bg-black/26" />
             <div className="absolute inset-0 bg-gradient-to-r from-black/42 via-black/20 to-black/10" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/16 via-transparent to-black/32" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/16 via-transparent to-black" />
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_95%_65%_at_75%_18%,rgba(193,37,50,0.16),transparent_60%)]" />
           </div>
           <div className="absolute inset-0 flex items-end max-md:items-start pointer-events-none max-md:pt-[calc(var(--site-header-h)+env(safe-area-inset-top))]">
@@ -180,8 +180,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Плавный переход hero → контент */}
-      <div className="pointer-events-none relative z-10 -mt-16 h-32 bg-gradient-to-b from-transparent via-black/60 to-[#0a0a0a]" aria-hidden />
 
       <div className="mx-auto w-full max-w-6xl space-y-20 px-4 py-4 lg:px-6 lg:py-8">
         <section>
