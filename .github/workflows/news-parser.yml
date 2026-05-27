@@ -1,0 +1,49 @@
+name: News Parser
+
+on:
+  # Каждые 2 часа
+  schedule:
+    - cron: '0 */2 * * *'
+
+  # Ручной запуск для теста
+  workflow_dispatch:
+
+jobs:
+  parse:
+    name: Fetch & create Sanity drafts
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: scripts/news-parser/requirements.txt
+
+      - name: Install dependencies
+        run: pip install -r scripts/news-parser/requirements.txt
+
+      - name: Run parser
+        env:
+          SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+          SANITY_DATASET:    ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+          SANITY_TOKEN:      ${{ secrets.SANITY_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID:   ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python scripts/news-parser/parser.py
+
+      - name: Save seen URLs back to repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add scripts/news-parser/seen_urls.json
+          git diff --cached --quiet || git commit -m "chore: update seen_urls [skip ci]"
+          git push
