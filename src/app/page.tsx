@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { GlassCard } from "@/components/GlassCard";
-import { SanityImage } from "@/components/SanityImage";
+import { NewsSlider } from "@/components/NewsSlider";
 import { formatDateRu } from "@/lib/format";
 import type { DocCard, HomePage } from "@/lib/data";
 import { getHomePage, getLatestDocuments, getLatestNews } from "@/lib/data";
@@ -118,13 +118,6 @@ export default async function HomePage() {
     })
     .slice(0, 6);
 
-  const imageClassByRatio = (ratio?: number | null) => {
-    if (typeof ratio !== "number" || !Number.isFinite(ratio)) return "media-news-poster";
-    if (ratio > 1.15) return "media-news-landscape";
-    if (ratio < 0.85) return "media-news-poster";
-    return "media-news-square";
-  };
-
   return (
     <>
       <section
@@ -205,41 +198,15 @@ export default async function HomePage() {
               Все новости →
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8">
             {news.length === 0 ? (
-              <GlassCard className="md:col-span-2 lg:col-span-3">
+              <GlassCard>
                 <p className="text-zinc-400">
                   Новости появятся здесь после публикации в редакторе контента.
                 </p>
               </GlassCard>
             ) : (
-              news.slice(0, 3).map((item) => {
-                const slug = item.slug?.current;
-                return (
-                  <Link key={item._id} href={slug ? `/news/${slug}` : "#"} className="group block">
-                    <GlassCard className="h-full overflow-hidden p-0">
-                      <div className={imageClassByRatio(item.coverImageAspectRatio)}>
-                        <SanityImage
-                          image={item.coverImage}
-                          alt=""
-                          fill
-                          className="media-preview-image transition duration-500 group-hover:scale-[1.02]"
-                          sizes="(max-width:768px)100vw,33vw"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
-                      </div>
-                      <div className="p-6">
-                        <p className="text-xs text-zinc-500">
-                          {item.publishedAt ? formatDateRu(item.publishedAt) : ""}
-                        </p>
-                        <h3 className="mt-2 text-lg font-semibold text-white transition group-hover:text-accent-soft">
-                          {item.title}
-                        </h3>
-                      </div>
-                    </GlassCard>
-                  </Link>
-                );
-              })
+              <NewsSlider items={news} />
             )}
           </div>
         </section>

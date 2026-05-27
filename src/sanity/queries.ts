@@ -7,7 +7,7 @@ export const homePageQuery = `*[_type == "homePage" && _id == "homePage"][0]{
   metaDescription
 }`;
 
-export const latestNewsQuery = `*[_type == "newsArticle"] | order(publishedAt desc)[0...6]{
+export const latestNewsQuery = `*[_type == "newsArticle"] | order(publishedAt desc)[0...8]{
   _id,
   title,
   slug,
