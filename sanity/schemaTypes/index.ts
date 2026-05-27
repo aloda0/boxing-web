@@ -7,7 +7,11 @@ import { teamDoc } from "./teamDoc";
 import { competitionResult } from "./competitionResult";
 import { regulationDoc } from "./regulationDoc";
 import { reportDoc } from "./reportDoc";
-import { callDoc } from "./callDoc";
+import { leader } from "./leader";
+import { coach } from "./coach";
+import { orgDoc } from "./orgDoc";
+import { museumEntry } from "./museumEntry";
+import { udarNaSiluEvent } from "./udarNaSiluEvent";
 
 export const schemaTypes: SchemaTypeDefinition[] = [
   blockContent,
@@ -18,5 +22,9 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   competitionResult,
   regulationDoc,
   reportDoc,
-  callDoc,
+  leader,
+  coach,
+  orgDoc,
+  museumEntry,
+  udarNaSiluEvent,
 ];

@@ -99,27 +99,55 @@ export const reportDocsQuery = `*[_type == "reportDoc"] | order(docDate desc){
   "fileName": file.asset->originalFilename
 }`;
 
-export const callDocsQuery = `*[_type == "callDoc"] | order(docDate desc){
+export const latestDocumentsQuery = `{
+  "regulations": *[_type == "regulationDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url },
+  "reports": *[_type == "reportDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url }
+}`;
+
+// О нас
+export const leadersQuery = `*[_type == "leader"] | order(order asc, _createdAt asc){
+  _id,
+  name,
+  role,
+  photo,
+  bio
+}`;
+
+export const coachesQuery = `*[_type == "coach"] | order(order asc, _createdAt asc){
+  _id,
+  name,
+  specialization,
+  photo,
+  bio
+}`;
+
+export const orgDocsQuery = `*[_type == "orgDoc"] | order(docDate desc){
   _id,
   title,
   slug,
   docDate,
-  description,
-  "fileUrl": file.asset->url,
-  "fileName": file.asset->originalFilename
+  shortDescription,
+  "fileUrl": file.asset->url
 }`;
 
-export const callBySlugQuery = `*[_type == "callDoc" && slug.current == $slug][0]{
+// Музей Югры
+export const museumEntriesQuery = `*[_type == "museumEntry"] | order(order asc, _createdAt asc){
+  _id,
+  title,
+  category,
+  photo,
+  description,
+  achievementDate
+}`;
+
+// Удар на силу
+export const udarNaSiluEventsQuery = `*[_type == "udarNaSiluEvent"] | order(eventDate desc){
+  _id,
   title,
   slug,
-  docDate,
+  eventDate,
+  location,
+  coverImage,
   description,
-  "fileUrl": file.asset->url,
-  "fileName": file.asset->originalFilename
-}`;
-
-export const latestDocumentsQuery = `{
-  "regulations": *[_type == "regulationDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url },
-  "reports": *[_type == "reportDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, shortDescription, "fileUrl": file.asset->url },
-  "calls": *[_type == "callDoc"] | order(docDate desc)[0...3]{ _id, title, slug, docDate, "fileUrl": file.asset->url }
+  "resultsFileUrl": resultsFile.asset->url
 }`;

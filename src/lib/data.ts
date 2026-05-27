@@ -2,17 +2,20 @@ import { client, isSanityConfigured } from "@/sanity/client";
 import {
   allNewsQuery,
   calendarEventsQuery,
-  callBySlugQuery,
-  callDocsQuery,
   competitionResultBySlugQuery,
   competitionResultsQuery,
+  coachesQuery,
   homePageQuery,
-  teamDocsQuery,
   latestDocumentsQuery,
   latestNewsQuery,
+  leadersQuery,
+  museumEntriesQuery,
   newsBySlugQuery,
+  orgDocsQuery,
   regulationDocsQuery,
   reportDocsQuery,
+  teamDocsQuery,
+  udarNaSiluEventsQuery,
 } from "@/sanity/queries";
 
 async function safeFetch<T>(query: string, params?: Record<string, unknown>): Promise<T | null> {
@@ -71,18 +74,39 @@ export async function getReportDocs() {
   return data ?? [];
 }
 
-export async function getCallDocs() {
-  const data = await safeFetch<CallCard[]>(callDocsQuery);
-  return data ?? [];
-}
-
-export async function getCallBySlug(slug: string) {
-  return safeFetch<CallDetail | null>(callBySlugQuery, { slug });
-}
-
 export async function getLatestDocuments() {
   return safeFetch<LatestDocs>(latestDocumentsQuery);
 }
+
+// О нас
+export async function getLeaders() {
+  const data = await safeFetch<Leader[]>(leadersQuery);
+  return data ?? [];
+}
+
+export async function getCoaches() {
+  const data = await safeFetch<Coach[]>(coachesQuery);
+  return data ?? [];
+}
+
+export async function getOrgDocs() {
+  const data = await safeFetch<DocCard[]>(orgDocsQuery);
+  return data ?? [];
+}
+
+// Музей Югры
+export async function getMuseumEntries() {
+  const data = await safeFetch<MuseumEntry[]>(museumEntriesQuery);
+  return data ?? [];
+}
+
+// Удар на силу
+export async function getUdarNaSiluEvents() {
+  const data = await safeFetch<UdarNaSiluEvent[]>(udarNaSiluEventsQuery);
+  return data ?? [];
+}
+
+// ===== TYPES =====
 
 export type HomePage = {
   heroTitle?: string | null;
@@ -151,21 +175,43 @@ export type DocCard = {
   fileName?: string | null;
 };
 
-export type CallCard = DocCard & {
-  description?: string | null;
-};
-
-export type CallDetail = {
-  title?: string | null;
-  slug?: { current?: string | null } | null;
-  docDate?: string | null;
-  description?: string | null;
-  fileUrl?: string | null;
-  fileName?: string | null;
-};
-
 export type LatestDocs = {
   regulations?: DocCard[];
   reports?: DocCard[];
-  calls?: DocCard[];
+};
+
+export type Leader = {
+  _id: string;
+  name?: string | null;
+  role?: string | null;
+  photo?: unknown;
+  bio?: string | null;
+};
+
+export type Coach = {
+  _id: string;
+  name?: string | null;
+  specialization?: string | null;
+  photo?: unknown;
+  bio?: string | null;
+};
+
+export type MuseumEntry = {
+  _id: string;
+  title?: string | null;
+  category?: string | null;
+  photo?: unknown;
+  description?: unknown;
+  achievementDate?: string | null;
+};
+
+export type UdarNaSiluEvent = {
+  _id: string;
+  title?: string | null;
+  slug?: { current?: string | null } | null;
+  eventDate?: string | null;
+  location?: string | null;
+  coverImage?: unknown;
+  description?: unknown;
+  resultsFileUrl?: string | null;
 };

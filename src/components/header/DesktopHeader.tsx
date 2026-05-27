@@ -147,9 +147,6 @@ export function DesktopHeader() {
             <Link prefetch={false} href="/news" className={desktopLinkClass(pathMatches(pathname, "/news"))}>
               Новости
             </Link>
-            <Link prefetch={false} href="/broadcasts" className={desktopLinkClass(pathMatches(pathname, "/broadcasts"))}>
-              Трансляции
-            </Link>
             <Link prefetch={false} href="/museum" className={desktopLinkClass(pathMatches(pathname, "/museum"))}>
               Музей Югры
             </Link>

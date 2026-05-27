@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { GlassCard } from "@/components/GlassCard";
+import { SanityImage } from "@/components/SanityImage";
+import { formatDateRu } from "@/lib/format";
+import { getUdarNaSiluEvents } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Удар на силу",
@@ -7,29 +10,13 @@ export const metadata: Metadata = {
     "Удар на силу — специальный проект Федерации бокса Югры по измерению силы удара.",
 };
 
-const features = [
-  {
-    title: "Открытые замеры",
-    description:
-      "Любой желающий может прийти и измерить силу удара на профессиональном оборудовании.",
-  },
-  {
-    title: "Рейтинг участников",
-    description:
-      "Таблица лидеров по категориям: возраст, вес, пол. Обновляется после каждого мероприятия.",
-  },
-  {
-    title: "Положения турниров",
-    description:
-      "Официальные положения и регламенты мероприятий проекта «Удар на силу» для участников.",
-  },
-];
+export default async function UdarNaSiluPage() {
+  const events = await getUdarNaSiluEvents();
 
-export default function UdarNaSiluPage() {
   return (
     <div className="mx-auto max-w-6xl px-4 py-14 lg:px-6 lg:py-20">
       <p className="text-xs font-semibold uppercase tracking-widest text-[#C62828]">
-        В разработке
+        Проект федерации
       </p>
       <h1 className="mt-3 text-4xl font-bold tracking-tight text-white sm:text-5xl">
         Удар на силу
@@ -39,21 +26,50 @@ export default function UdarNaSiluPage() {
         замеры, рейтинги участников и турниры среди любителей.
       </p>
 
-      <div className="mt-12 grid gap-5 sm:grid-cols-3">
-        {features.map((f) => (
-          <GlassCard key={f.title} hover={false} className="flex flex-col gap-3">
-            <div className="h-0.5 w-8 bg-[#C62828] rounded-full" />
-            <h3 className="text-base font-semibold text-white">{f.title}</h3>
-            <p className="text-sm text-zinc-400 leading-relaxed">{f.description}</p>
-          </GlassCard>
-        ))}
-      </div>
-
-      <GlassCard hover={false} className="mt-6 text-center">
-        <p className="text-sm text-zinc-400">
-          Раздел готовится к запуску. Следите за обновлениями на сайте и в социальных сетях.
-        </p>
-      </GlassCard>
+      {events.length === 0 ? (
+        <GlassCard hover={false} className="mt-12 text-center">
+          <p className="text-sm text-zinc-400">
+            Раздел готовится к запуску. Следите за обновлениями на сайте и в социальных сетях.
+          </p>
+        </GlassCard>
+      ) : (
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {events.map((event) => (
+            <GlassCard key={event._id} className="flex flex-col gap-0 p-0 overflow-hidden">
+              {event.coverImage ? (
+                <div className="relative h-48 w-full overflow-hidden bg-white/5">
+                  <SanityImage
+                    image={event.coverImage}
+                    alt={event.title ?? ""}
+                    fill
+                    className="object-cover transition duration-300 hover:scale-[1.02]"
+                    sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 33vw"
+                  />
+                </div>
+              ) : null}
+              <div className="flex flex-col gap-2 p-5">
+                {event.eventDate ? (
+                  <p className="text-xs text-zinc-500">{formatDateRu(event.eventDate)}</p>
+                ) : null}
+                <h2 className="text-base font-semibold text-white">{event.title}</h2>
+                {event.location ? (
+                  <p className="text-sm text-zinc-400">{event.location}</p>
+                ) : null}
+                {event.resultsFileUrl ? (
+                  <a
+                    href={event.resultsFileUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="btn-primary mt-2 inline-flex rounded-xl px-4 py-2 text-sm font-semibold text-white transition"
+                  >
+                    Результаты
+                  </a>
+                ) : null}
+              </div>
+            </GlassCard>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -108,7 +108,6 @@ export default async function HomePage() {
   const mergedDocs: { doc: DocCard; kind: string }[] = [
     ...(docsBundle?.regulations ?? []).map((d) => ({ doc: d, kind: "Положение" })),
     ...(docsBundle?.reports ?? []).map((d) => ({ doc: d, kind: "Отчёт" })),
-    ...(docsBundle?.calls ?? []).map((d) => ({ doc: d, kind: "Вызов" })),
   ]
     .filter((x) => x.doc?.title)
     .sort((a, b) => {

@@ -29,23 +29,7 @@ export function MobileHeader() {
     closeDetails();
   };
 
-  const leadershipHref =
-    aboutDropdown.find((x) => x.label === "Руководство")?.href ??
-    aboutDropdown.find((x) => x.href === "/about/leadership")?.href ??
-    aboutDropdown[0]?.href ??
-    "/about/leadership";
-
-  const organizationHref =
-    aboutDropdown.find((x) => x.href === "/about/organization")?.href ??
-    aboutDropdown.find((x) => x.label === "Документы организации")?.href ??
-    aboutDropdown[1]?.href ??
-    "/about/organization";
-
-  const aboutSubLinks = [
-    { label: "Руководство", href: leadershipHref },
-    { label: "Документы организации", href: organizationHref },
-    { label: "Тренерский состав", href: organizationHref },
-  ] as const;
+  const aboutSubLinks = aboutDropdown;
 
   const docsSubLinks = documentationDropdown;
 
@@ -151,14 +135,6 @@ export function MobileHeader() {
             onClick={onLinkClick}
           >
             Новости
-          </Link>
-          <Link
-            href="/broadcasts"
-            prefetch={false}
-            className="block border-b border-white/10 py-3 text-base font-medium text-zinc-100 active:bg-white/5"
-            onClick={onLinkClick}
-          >
-            Трансляции
           </Link>
           <Link
             href="/museum"

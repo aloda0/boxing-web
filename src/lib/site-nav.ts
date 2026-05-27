@@ -5,8 +5,8 @@ export const SITE_LOGO_SRC = "/images/logo-transparent-white-text.png";
 
 export const aboutDropdown = [
   { href: "/about/leadership", label: "Руководство" },
+  { href: "/about/coaches", label: "Тренерский состав" },
   { href: "/about/organization", label: "Документы организации" },
-  { href: "/about/organization", label: "Тренерский состав" },
 ] as const;
 
 export const documentationDropdown = [
@@ -15,7 +15,6 @@ export const documentationDropdown = [
   { href: "/results", label: "Результаты соревнований" },
   { href: "/regulations", label: "Положение соревнований" },
   { href: "/reports", label: "Судейские отчеты" },
-  { href: "/calls", label: "Вызовы" },
 ] as const;
 
 export function pathMatches(pathname: string | null, href: string): boolean {
